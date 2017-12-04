@@ -6,7 +6,7 @@ import { NgModule } from '@angular/core';
 import { Component } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
-import { SampleModule }  from 'mello-labs-form-tools';
+import { FormToolsModule } from '../src/index';
 
 @Component({
   selector: 'app',
@@ -16,8 +16,8 @@ class AppComponent {}
 
 @NgModule({
   bootstrap: [ AppComponent ],
-  declarations: [ AppComponent ],
-  imports: [ BrowserModule, SampleModule ]
+  declarations: [AppComponent],
+  imports: [BrowserModule, FormToolsModule]
 })
 class AppModule {}
 
