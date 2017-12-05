@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
+import { FormGroup, AbstractControl } from '@angular/forms';
 import { DatePipe, CurrencyPipe } from '@angular/common';
 import { Subscription } from "rxjs/Subscription";
 import { Observable } from 'rxjs/Observable';

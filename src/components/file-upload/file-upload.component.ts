@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { FormGroup, AbstractControl } from '@angular/forms';
 /**
  * <file-upload #fileUpload [frmGroup]="formMain" frmControl="files" label="Upload Files" [multiple]="true" [dragNdrop]="true" (filesAdded)="filesAdded($event)"></file-upload>
  */
@@ -69,9 +69,4 @@ export class FileUploadComponent implements OnInit {
 		this.hover = false;
 		this.files = null;
 	}
-
-	ngOnDestroy() {
-
-	}
-
 }
