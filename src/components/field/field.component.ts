@@ -3,6 +3,9 @@ import { FormGroup, AbstractControl } from '@angular/forms';
 import { DatePipe, CurrencyPipe } from '@angular/common';
 import { Subscription } from "rxjs/Subscription";
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
 
 // TODO: Refactor currency and date fields to subcomponents, move logic
 // TODO: Figure out why default properties set above constructor are being ignored/deleted and have to be set inside the constructor
@@ -30,12 +33,12 @@ export class FieldComponent implements OnInit {
 
 	public typeahead: any = ''; // Holds typehead model
 	/** Observable that powers the typehead*/
-	public typeaheadSearch = (text$) =>
+	public typeaheadSearch = (text$:any) =>
 		text$
 			.debounceTime(200)
 			.distinctUntilChanged()
-			.map(term => term.length < 2 ? []
-				: this.model.filter(v => {
+			.map((term:any) => term.length < 2 ? []
+				: this.model.filter((v:any) => {
 					let filterMe = this.modelLabel ? v[this.modelLabel] : v;
 					return filterMe.toLowerCase().indexOf(term.toLowerCase()) > -1;
 				}).slice(0, 10));
@@ -55,10 +58,12 @@ export class FieldComponent implements OnInit {
 		this.disabled = false;
 		this.showPwd = false;
 		this.altFormat = '';
+		this.model = [];
+		this.modelLabel = '';
     }
 
 	ngOnInit() {
-		
+
 		this.field = this.frmGroup.get(this.frmControl); //Set a reference to this field for simplicity
 
         // Since the visible currency field is a mask and not connected to the main formgroup, it needs to know when the form model changes
@@ -83,7 +88,7 @@ export class FieldComponent implements OnInit {
                     this.altFormat = this.datePipe.transform(this.field.value, 'MM/dd/yyyy');
                 }
             });
-        }
+		}
     }
 
     ngOnDestroy() {
@@ -93,7 +98,7 @@ export class FieldComponent implements OnInit {
         }
     }
 
-    checkboxMap($event) {
+	checkboxMap($event: any) {
         //console.log('Changing', $event, this.model);
     }
 
@@ -101,7 +106,7 @@ export class FieldComponent implements OnInit {
      * Format a currency input to be nicely formatted but return a standard number to the form mdoel
      * @param $event - Dom event
      */
-    onCurrencyChange($event) {
+    onCurrencyChange($event:any) {
         let dollars, cents, hasDecimal, newVal,
             amount = $event.target.value.replace(/[^0-9.]/gi, '') || '0';
         // If a decimal is present, split the string so that the currencyPipe will format only the dollar amount not the cents
@@ -142,7 +147,7 @@ export class FieldComponent implements OnInit {
      * For typeaheads that have a companion select dropdown, update the main typeahead on selection
      * @param event
      */
-	public updateTypeahead(event) {
+	public updateTypeahead(event: any) {
 		this.field.setValue(event.target.value);
 	}
 
