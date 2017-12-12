@@ -60,6 +60,17 @@ export class FieldComponent implements OnInit {
 		this.altFormat = '';
 		this.model = [];
 		this.modelLabel = '';
+		this.typeaheadSearch = (text$: any) =>
+			text$
+			.debounceTime(200)
+			.distinctUntilChanged()
+			.map((term: any) => term.length < 2 ? []
+				: this.model.filter((v: any) => {
+					let filterMe = this.modelLabel ? v[this.modelLabel] : v;
+					return filterMe.toLowerCase().indexOf(term.toLowerCase()) > -1;
+					}).slice(0, 10));
+		// Formats the output
+		this.formatter = (x: { key: string }) => x[this.modelLabel] || x;
     }
 
 	ngOnInit() {
