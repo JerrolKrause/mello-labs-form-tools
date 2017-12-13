@@ -52,12 +52,43 @@ export class FileUploadComponent implements OnInit {
 		for (let i = 0; i < this.files.length; i++) {
 			formData.append('files[]', this.files[i], this.files[i].name);
 		}
-		this.filesAdded.emit({ formData: formData, event: event });
+		// Get file properties
+		let fileInfo = this.getFilesProps(this.files);
+
+		this.filesAdded.emit({ formData: formData, event: event, filesInfo: fileInfo });
 		if (this.fillParent) {
 			this.files = null;
 		}
 	}
 
+	/**
+	 * Loop through the file/s added and create a simple to consumer array of the files properties
+	 * @param files
+	 */
+	public getFilesProps(files: any): any[] {
+		let fileData: any[] = [];
+
+		for (let file of files) {
+			// Get extension
+			let ext = file.name.split('.');
+			ext = ext[ext.length - 1].toLowerCase();
+			let data = {
+				name: file.name,
+				size: file.size,
+				type: file.type,
+				ext: ext,
+				fileRef : file
+			}
+			fileData.push(data);
+		}
+
+		return fileData;
+	}
+
+	/**
+	 *  Set hoverstate
+	 * @param newState
+	 */
 	public updateHover(newState: boolean) {
 		this.hover = newState;
 	}
