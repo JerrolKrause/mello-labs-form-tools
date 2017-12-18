@@ -172,6 +172,9 @@
             <span [hidden]="!field.errors.minlength" *ngIf="field.errors.minlength">
                 {{label}} must be at least {{field.errors.minlength.requiredLength || 0}} characters long.
             </span>
+			<span [hidden]="!field.errors.maxlength" *ngIf="field.errors.maxlength">
+				{{label}} can not be over {{field.errors.maxlength.requiredLength || 0}} characters long.
+			</span>
             <span [hidden]="!field.errors.email">
                 Please enter a valid email address.
             </span>

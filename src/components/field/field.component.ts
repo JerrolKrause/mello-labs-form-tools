@@ -74,7 +74,7 @@ export class FieldComponent implements OnInit {
     }
 
 	ngOnInit() {
-
+		
 		this.field = this.frmGroup.get(this.frmControl); //Set a reference to this field for simplicity
 
         // Since the visible currency field is a mask and not connected to the main formgroup, it needs to know when the form model changes
