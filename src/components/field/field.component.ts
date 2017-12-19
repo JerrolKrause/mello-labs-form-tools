@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { FormGroup, AbstractControl } from '@angular/forms';
+import { FormGroup, AbstractControl, FormBuilder } from '@angular/forms';
 import { DatePipe, CurrencyPipe } from '@angular/common';
 import { Subscription } from "rxjs/Subscription";
 import { Observable } from 'rxjs/Observable';
@@ -47,7 +47,8 @@ export class FieldComponent implements OnInit {
 	
     private frmGroupSub: Subscription; // If this field elements needs to subscribe to form changes
     
-    constructor(
+	constructor(
+		private fb: FormBuilder,
         private datePipe: DatePipe,
         private currencyPipe: CurrencyPipe
 	) {

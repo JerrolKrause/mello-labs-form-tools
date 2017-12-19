@@ -34,3 +34,15 @@ export class FormToolsModule {
     };
   }
 }
+
+export interface IFileUpload {
+	formData: FormData;
+	event: Event;
+	filesInfo: {
+		ext: string;
+		fileRef: File;
+		name: string;
+		size: number;
+		type: string;
+	}[];
+}

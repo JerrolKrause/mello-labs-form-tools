@@ -11,15 +11,18 @@
 
 		<div *ngIf="!files">
 			<label [ngClass]="{'dragNDrop' : dragNdrop, 'hover': hover}" for="frm_{{frmControl}}" (dragover)="updateHover(true)" (dragleave)="updateHover(false)" (mouseleave)="updateHover(false)">
-				<span style="position:relative;z-index:5;display:inline-block;"></span>
-				<span class="d-block text-center"><i class="fa fa-upload fa-5x" aria-hidden="true"></i></span>
-				<span class="h3">Drop file<ng-container *ngIf="multiple">/s</ng-container> here <ng-container *ngIf="!fillParent">or click to upload</ng-container></span>
+				<span class="d-block v-center">
+					<span style="position:relative;z-index:5;display:inline-block;"></span>
+					<span class="d-block text-center"><i class="fa fa-upload fa-5x" aria-hidden="true"></i></span>
+					<span class="h3 mb-3">Drop file<ng-container *ngIf="multiple">/s</ng-container> here <ng-container *ngIf="!fillParent">or click to upload</ng-container></span>
+					<small class="d-block" *ngIf="multiple"><em>Control + Click to select multiple files.</em></small>
+					<small class="d-block" *ngIf="!multiple"><em>Single file upload only.</em></small>
+					<span class="dragNdrop-bg" *ngIf="fillParent"></span>
+				</span>
+				<!-- File field -->
 				<input class="form-control {{classes}}" id="frm_{{frmControl}}" type="file" (change)="onFilesAdded($event)" [attr.multiple]="multiple ? multiple : null" data-qa="file-upload" />
-
-				<span class="dragNdrop-bg" *ngIf="fillParent"></span>
 			</label>
-			<small *ngIf="multiple"><em>Control + Click to select multiple files.</em></small>
-			<small *ngIf="!multiple"><em>Single file upload only.</em></small>
+			
 		</div>
 
 		<div *ngIf="files">
@@ -43,7 +46,7 @@
 			</table>
 		</div>
 
-		<div *ngIf="field.errors && field.dirty && field.touched"
+		<div *ngIf="field && field.errors && field.dirty && field.touched"
 			 class="alert alert-danger alert-form icon">
 			<span [hidden]="!field.errors.required">
 				{{label}} is required.
