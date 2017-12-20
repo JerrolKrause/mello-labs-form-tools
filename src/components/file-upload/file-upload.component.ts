@@ -1,10 +1,9 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder } from '@angular/forms';
 /**
  * <file-upload #fileUpload [frmGroup]="formMain" frmControl="files" label="Upload Files" [multiple]="true" [fillParent]="true" [dragNdrop]="true" (filesAdded)="filesAdded($event)"></file-upload>
  */
-
-
+ 
 @Component({
 	selector: 'file-upload',
 	styles: [`
@@ -12,10 +11,11 @@ import { FormGroup, AbstractControl, FormBuilder } from '@angular/forms';
         .fill .dragNDrop{position:absolute;top:0;bottom:0;left:0;right:0;height: 100%;background:none;z-index:5;padding-top: 0;background:#fff;}
         .fill .dragNdrop-bg{position:absolute;top:5px;bottom:5px;left:5px;right:5px;opacity:0.85;background: #fff;z-index:-1;}
 		.v-center{position: relative;top: 45%;transform: translateY(-50%);}
+		small{font-size: 60%;}
 `],
 	templateUrl: './file-upload.component.html'
 })
-export class FileUploadComponent implements OnInit {
+export class FileUploadComponent implements OnInit, AfterViewInit {
 
 	@Input() frmGroup: FormGroup;
 	@Input() frmControl: string; // Object property of reactive form
@@ -29,18 +29,25 @@ export class FileUploadComponent implements OnInit {
 
 	@Output() filesAdded: EventEmitter<any> = new EventEmitter();
 
+	@ViewChild('fileField') fileField: ElementRef;
+
+
 	public field: AbstractControl; // Hold a reference to the current field element, this is set in ngoninit
 	public files: any; // Formdata object for files
 	public hover: boolean = false;
+	public dropFileSize: false | number = false;
 
 	constructor(
-		private fb: FormBuilder
+		private fb: FormBuilder,
+		private ref: ChangeDetectorRef
 	) {
-		this.disabled = this.multiple = this.dragNdrop = this.fillParent = false;
+		this.dropFileSize = this.disabled = this.multiple = this.dragNdrop = this.fillParent = false;
 		this.filesAdded = new EventEmitter();
 	}
 
+	
 	ngOnInit() {
+		
 		if (!this.frmGroup) {
 			this.frmGroup = this.fb.group({ // <-- the parent FormGroup
 				files: ['', []]
@@ -50,6 +57,12 @@ export class FileUploadComponent implements OnInit {
 
 		if (this.frmControl) {
 			this.field = this.frmGroup.get(this.frmControl); //Set a reference to this field for simplicity
+		}
+	}
+
+	ngAfterViewInit() {
+		if (this.fillParent) {
+			this.getDropTextSize();
 		}
 	}
 
@@ -95,6 +108,22 @@ export class FileUploadComponent implements OnInit {
 		}
 
 		return fileData;
+	}
+
+	/**
+	 * Adjust the size of the drop text based on input box width
+	 */
+	private getDropTextSize() {
+		let dropFileSize;
+		dropFileSize = Math.round(this.fileField.nativeElement.getBoundingClientRect().width / 700 * 100) / 100;
+		if (dropFileSize > 2) {
+			dropFileSize = 2;
+		}
+		if (dropFileSize < 1) {
+			dropFileSize = 1;
+		}
+		this.dropFileSize = dropFileSize;
+		this.ref.detectChanges();
 	}
 
 	/**
