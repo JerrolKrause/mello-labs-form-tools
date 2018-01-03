@@ -1,6 +1,6 @@
 {
 	"name": "@mello-labs/form-tools",
-	"version": "0.1.11",
+	"version": "0.1.14",
 	"description": "Form field components for rapid form creation & development",
 	"repository": {
 		"type": "git",

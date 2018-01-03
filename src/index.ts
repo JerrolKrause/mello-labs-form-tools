@@ -35,7 +35,7 @@ export class FormToolsModule {
   }
 }
 
-export interface IFileUpload {
+export interface FileUpload {
 	formData: FormData;
 	event: Event;
 	filesInfo: {
