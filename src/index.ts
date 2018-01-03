@@ -36,13 +36,13 @@ export class FormToolsModule {
 }
 
 export interface FileUpload {
-	formData: FormData;
-	event: Event;
-	filesInfo: {
-		ext: string;
-		fileRef: File;
-		name: string;
-		size: number;
-		type: string;
+	formData?: FormData;
+	event?: Event;
+	filesInfo?: {
+		ext?: string;
+		fileRef?: File;
+		name?: string;
+		size?: number;
+		type?: string;
 	}[];
 }
