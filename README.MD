@@ -37,7 +37,7 @@ import { FormToolsModule } from '@mello-labs/form-tools';
     BrowserModule,
 
     // Specify your library as an import
-    FormToolsModule
+    FormToolsModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
