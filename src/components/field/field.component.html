@@ -3,191 +3,180 @@
      'has-danger' : field.invalid && field.dirty && field.touched,
      'has-success' : field.valid && field.validator,
      'required' : field.validator}">
-    <label for="frm_{{frmControl}}" class="col-form-label col-12 col-md-{{labelColumns}}" *ngIf="!inline">
-        {{label}} <sup class="red" *ngIf="field.validator">*</sup>
-    </label>
-    <div class="col-12 col-md-{{(12 - labelColumns) || '9'}}" [ngClass]="{'col-md-12': inline}">
-        <ng-container [ngSwitch]="type">
+  <label for="frm_{{frmControl}}_{{randNum}}" class="col-form-label col-12 col-md-{{labelColumns}}" *ngIf="!inline">
+    {{label}} <sup class="red" *ngIf="field.validator">*</sup>
+  </label>
+  <div class="col-12 col-md-{{(12 - labelColumns) || '9'}}" [ngClass]="{'col-md-12': inline}">
+    <ng-container [ngSwitch]="type">
 
-            <!-- File Upload -->
-            <input class="form-control {{classes}}" id="frm_{{frmControl}}" [formControlName]="frmControl" type="file"
-                   *ngSwitchCase="'file'" [ngClass]="{
+      <!-- File Upload -->
+      <input class="form-control {{classes}}" id="frm_{{frmControl}}_{{randNum}}" [formControlName]="frmControl" type="file"
+             *ngSwitchCase="'file'" [ngClass]="{
                'form-control-danger' : field.invalid && field.dirty && field.touched,
                'form-control-success' : field.valid && field.validator }" />
 
-            <!-- Select Dropdown -->
-            <select class="form-control {{classes}}" id="frm_{{frmControl}}" [formControlName]="frmControl"
-                    *ngSwitchCase="'select'" [ngClass]="{
+      <!-- Select Dropdown -->
+      <select class="form-control {{classes}}" id="frm_{{frmControl}}_{{randNum}}" [formControlName]="frmControl"
+               *ngSwitchCase="'select'" [ngClass]="{
                'form-control-danger' : field.invalid && field.dirty && field.touched,
                'form-control-success' : field.valid && field.validator }">
-                <option disabled selected value="">-- Please Select --</option>
-                <option *ngFor="let item of model" [value]="item[modelValue] || item[modelLabel] || item">{{item[modelLabel] || item}}</option>
-            </select>
+        <option disabled selected value="">-- Please Select --</option>
+        <option *ngFor="let item of model" [value]="item[modelValue] || item[modelLabel] || item">{{item[modelLabel] || item}}</option>
+      </select>
 
-            <!-- Radio Buttons -->
-            <fieldset class="form-group {{classes}}" *ngSwitchCase="'radio'">
-                <div class="form-check" *ngFor="let item of model" [ngClass]="{'form-check-inline':inline}">
-                    <label class="form-check-label label-{{frmControl}} label-{{frmControl}}-{{item[modelValue]  || item[modelLabel] || item}}">
-                        <input type="radio" id="frm_{{frmControl}}" class="form-check-input radio-{{frmControl}}" [value]="item[modelValue]  || item[modelLabel] || item" [formControlName]="frmControl" [checked]="field.value == (item[modelLabel] || item)">
-                        <span>{{item[modelLabel] || item}}</span>
-                    </label>
-                </div>
-            </fieldset>
+      <!-- Radio Buttons -->
+      <fieldset class="form-group {{classes}}" *ngSwitchCase="'radio'">
+        <div class="form-check" *ngFor="let item of model" [ngClass]="{'form-check-inline':inline}">
+          <label class="form-check-label label-{{frmControl}} label-{{frmControl}}-{{item[modelValue]  || item[modelLabel] || item}}">
+            <input type="radio" id="frm_{{frmControl}}_{{randNum}}" class="form-check-input radio-{{frmControl}}" [value]="item[modelValue]  || item[modelLabel] || item" [formControlName]="frmControl" [checked]="field.value == (item[modelLabel] || item)">
+            <span>{{item[modelLabel] || item}}</span>
+          </label>
+        </div>
+      </fieldset>
 
-            <!-- Checkboxes -->
-            <fieldset class="form-group" *ngSwitchCase="'checkbox'">
-                <div class="form-check" *ngFor="let item of model; let i = index">
-                    <label class="form-check-label">
-                        <input type="checkbox" id="frm_{{frmControl}}" class="form-check-input {{classes}}" [value]="item[modelValue]  || item[modelLabel] || item" [formControlName]="item.id || frmControl">
-                        <span>{{item[modelLabel] || item}}</span>
-                    </label>
-                </div>
-            </fieldset>
+      <!-- Checkboxes -->
+      <fieldset class="form-group" *ngSwitchCase="'checkbox'">
+        <div class="form-check" *ngFor="let item of model; let i = index">
+          <label class="form-check-label">
+            <input type="checkbox" id="frm_{{frmControl}}_{{randNum}}" class="form-check-input {{classes}}" [value]="item[modelValue]  || item[modelLabel] || item" [formControlName]="item.id || frmControl">
+            <span>{{item[modelLabel] || item}}</span>
+          </label>
+        </div>
+      </fieldset>
 
-            <!-- Boolean checkbox, single checkbox with true false -->
-            <fieldset *ngSwitchCase="'boolean'">
-                <div class="form-check">
-                    <label class="form-check-label">
-                        <input type="checkbox" id="frm_{{frmControl}}" class="form-check-input {{classes}}" [value]="true" [formControlName]="frmControl">
-                    </label>
-                </div>
-            </fieldset>
+      <!-- Boolean checkbox, single checkbox with true false -->
+      <fieldset *ngSwitchCase="'boolean'">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input type="checkbox" id="frm_{{frmControl}}_{{randNum}}" class="form-check-input {{classes}}" [value]="true" [formControlName]="frmControl">
+          </label>
+        </div>
+      </fieldset>
 
-            <!-- Typeahead single value -->
-            <fieldset *ngSwitchCase="'typeahead'">
+      <!-- Typeahead single value -->
+      <fieldset *ngSwitchCase="'typeahead'">
 
-                <label for="frm_{{frmControl}}" class="icon keyboard" style="padding-right: 25px;">
-                    <input id="frm_{{frmControl}}" type="text" class="form-control {{classes}} form-control-over" [formControlName]="frmControl"
-                           [ngbTypeahead]="typeaheadSearch" [placeholder]="placeholder" [inputFormatter]="formatter" [resultTemplate]="rt" />
+        <label for="frm_{{frmControl}}" class="icon keyboard" style="padding-right: 25px;">
+          <input id="frm_{{frmControl}}_{{randNum}}" type="text" class="form-control {{classes}} form-control-over" [formControlName]="frmControl"
+                 [ngbTypeahead]="typeaheadSearch" [placeholder]="placeholder" [inputFormatter]="formatter" [resultTemplate]="rt" />
 
-                    <select class="form-control {{classes}} form-control-under" (change)="updateTypeahead($event)">
-                        <option disabled selected value="">-- Please Select --</option>
-                        <option *ngFor="let item of model" [value]="item[modelValue] || item[modelLabel] || item">{{item[modelLabel] || item}}</option>
-                    </select>
-                </label>
+          <select class="form-control {{classes}} form-control-under" (change)="updateTypeahead($event)" [disabled]="field.disabled">
+            <option disabled selected value="">-- Please Select --</option>
+            <option *ngFor="let item of model" [value]="item[modelValue] || item[modelLabel] || item">{{item[modelLabel] || item}}</option>
+          </select>
+        </label>
 
-                
+        <ng-template #rt let-r="result" let-t="term">
+          {{r[modelLabel] || r}}
+        </ng-template>
+      </fieldset>
 
-                <!--
-                <div class="input-group"></div>
-                <input id="frm_{{frmControl}}" type="text" class="form-control {{classes}}" [formControlName]="frmControl"
-                       [ngbTypeahead]="typeaheadSearch" [placeholder]="placeholder" [inputFormatter]="formatter" [resultTemplate]="rt" />
-                <select>
-                    <option disabled selected value="">-- Please Select --</option>
-                    <option *ngFor="let item of model" [value]="item[modelValue] || item[modelLabel] || item">{{item[modelLabel] || item}}</option>
-                </select>
-                -->
-                <ng-template #rt let-r="result" let-t="term">
-                    {{r[modelLabel] || r}}
-                </ng-template>
-            </fieldset>
+      <!-- Typeahead multiple values-->
+      <fieldset *ngSwitchCase="'typeahead2'">
+        <label for="frm_{{frmControl}}" class="icon keyboard">
+          <span class="input-group mb-3">
 
-            <!-- Typeahead multiple values-->
-            <fieldset *ngSwitchCase="'typeahead2'">
-                <label for="frm_{{frmControl}}" class="icon keyboard">
-                    <span class="input-group mb-3">
+            <input id="frm_{{frmControl}}2_{{randNum}}" type="text" class="form-control {{classes}}" [(ngModel)]="typeahead" [ngModelOptions]="{standalone: true}"
+                   [ngbTypeahead]="typeaheadSearch" [placeholder]="placeholder" [inputFormatter]="formatter" [resultTemplate]="rt" />
+            <span class="input-group-btn">
+              <button class="btn btn-interact" type="button" [disabled]="typeahead == ''" (click)="typeaheadAdd()"><i class="fa fa-plus"></i> Add</button>
+            </span>
+            <ng-template #rt let-r="result" let-t="term">
+              {{r[modelLabel] || r}}
+            </ng-template>
+          </span>
+        </label>
+        <input id="frm_{{frmControl}}_{{randNum}}" [formControlName]="frmControl" type="hidden" />
+        <ng-container *ngTemplateOutlet="contentTpl"></ng-container>
+      </fieldset>
 
-                        <input id="frm_{{frmControl}}2" type="text" class="form-control {{classes}}" [(ngModel)]="typeahead" [ngModelOptions]="{standalone: true}"
-                               [ngbTypeahead]="typeaheadSearch" [placeholder]="placeholder" [inputFormatter]="formatter" [resultTemplate]="rt" />
-                        <span class="input-group-btn">
-                            <button class="btn btn-interact" type="button" [disabled]="typeahead == ''" (click)="typeaheadAdd()"><i class="fa fa-plus"></i> Add</button>
-                        </span>
-                        <ng-template #rt let-r="result" let-t="term">
-                            {{r[modelLabel] || r}}
-                        </ng-template>
-                    </span>
-                </label>
-                <input id="frm_{{frmControl}}" [formControlName]="frmControl" type="hidden" />
-                <ng-container *ngTemplateOutlet="contentTpl"></ng-container>
-            </fieldset>
-
-            <!-- Text Area -->
-            <textarea class="form-control {{classes}}" id="frm_{{frmControl}}" [formControlName]="frmControl" rows="4" [placeholder]="placeholder"
-                      *ngSwitchCase="'textarea'" [ngClass]="{
+      <!-- Text Area -->
+      <textarea class="form-control {{classes}}" id="frm_{{frmControl}}_{{randNum}}" [formControlName]="frmControl" rows="4" [placeholder]="placeholder"
+                *ngSwitchCase="'textarea'" [ngClass]="{
                'form-control-danger' : field.invalid && field.dirty && field.touched,
                'form-control-success' : field.valid && field.validator }"></textarea>
 
-            <!-- Password -->
-            <ng-container *ngSwitchCase="'password'">
-                <div class="input-group">
-                    <input class="form-control {{classes}}" id="frm_{{frmControl}}" [formControlName]="frmControl" [attr.type]="showPwd ? 'text' : 'password'" [placeholder]="placeholder"
-                           [ngClass]="{
+      <!-- Password -->
+      <ng-container *ngSwitchCase="'password'">
+        <div class="input-group">
+          <input class="form-control {{classes}}" id="frm_{{frmControl}}_{{randNum}}" [formControlName]="frmControl" [attr.type]="showPwd ? 'text' : 'password'" [placeholder]="placeholder"
+                 [ngClass]="{
                'form-control-danger' : field.invalid && field.dirty && field.touched,
                'form-control-success' : field.valid && field.validator }" />
-                    <button type="button" class="btn btn-secondary btn-sm input-group-addon toggle-pwd" (click)="showPwd = !showPwd">
-                        <ng-template [ngIf]="!showPwd">Show</ng-template>
-                        <ng-template [ngIf]="showPwd">Hide</ng-template>
-                        Password
-                    </button>
-                </div>
-            </ng-container>
+          <button type="button" class="btn btn-secondary btn-sm input-group-addon toggle-pwd" (click)="showPwd = !showPwd">
+            <ng-template [ngIf]="!showPwd">Show</ng-template>
+            <ng-template [ngIf]="showPwd">Hide</ng-template>
+            Password
+          </button>
+        </div>
+      </ng-container>
 
-            <!-- Currency -->
-            <ng-container *ngSwitchCase="'currency'">
-                <!-- Holds the custom formatted output value -->
-                <input id="frm_{{frmControl}}" class="form-control {{classes}}" type="text" [value]="altFormat" [disabled]="field.disabled"
-                       (keyup)="onCurrencyChange($event)" [placeholder]="placeholder" [ngClass]="{
+      <!-- Currency -->
+      <ng-container *ngSwitchCase="'currency'">
+        <!-- Holds the custom formatted output value -->
+        <input id="frm_{{frmControl}}_{{randNum}}" class="form-control {{classes}}" type="text" [value]="altFormat"
+               (keyup)="onCurrencyChange($event)" [placeholder]="placeholder" [ngClass]="{
                'form-control-danger' : field.invalid && field.dirty && field.touched,
                'form-control-success' : field.valid && field.validator }" />
-                <!-- Holds actual form value -->
-                <input id="frm_{{frmControl}}" [formControlName]="frmControl" type="hidden" />
-            </ng-container>
+        <!-- Holds actual form value -->
+        <input id="frm_{{frmControl}}" [formControlName]="frmControl" type="hidden" />
+      </ng-container>
 
-            <!-- Date -->
-            <ng-container *ngSwitchCase="'date'">
-                <div class="input-group">
-                    <!-- Holds the correctly formatted date from the date picker, this is strictly presentational only -->
-                    <input class="form-control {{classes}}" id="frm_{{frmControl}}" placeholder="MM/dd/yyyy" disabled="disabled"
-                           [value]="altFormat" [ngClass]="{
+      <!-- Date -->
+      <ng-container *ngSwitchCase="'date'">
+        <div class="input-group">
+          <!-- Holds the correctly formatted date from the date picker, this is strictly presentational only -->
+          <input class="form-control {{classes}}" id="frm_{{frmControl}}_{{randNum}}" placeholder="MM/dd/yyyy"
+                 [value]="altFormat" [ngClass]="{
                                'form-control-danger' : field.invalid && field.dirty && field.touched,
                                'form-control-success' : field.valid && field.validator }" />
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-primary" (click)="d.toggle()" [disabled]="field.disabled">
-                            <i class="fa fa-calendar" aria-hidden="true"></i>
-                        </button>
-                    </span>
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-primary" (click)="d.toggle()">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+            </button>
+          </span>
 
-                </div>
-                <div class="datepicker">
-                    <!-- Holds the output from the datepicker which is not able to be custom formatted -->
-                    <input ngbDatepicker #d="ngbDatepicker" id="frm_{{frmControl}}_output" [ngModel]="totallyDoesntMatter" (ngModelChange)="onDateChange($event)" [ngModelOptions]="{standalone: true}" type="hidden" />
-                </div>
-                <!-- Holds the actual form value -->
-                <input id="frm_{{frmControl}}_output" [formControlName]="frmControl" type="hidden" />
-            </ng-container>
+        </div>
+        <div class="datepicker">
+          <!-- Holds the output from the datepicker which is not able to be custom formatted -->
+          <input ngbDatepicker #d="ngbDatepicker" id="frm_{{frmControl}}_output_{{randNum}}" [ngModel]="totallyDoesntMatter" (ngModelChange)="onDateChange($event)" [ngModelOptions]="{standalone: true}" type="hidden" />
+        </div>
+        <!-- Holds the actual form value -->
+        <input id="frm_{{frmControl}}_output_{{randNum}}" [formControlName]="frmControl" type="hidden" />
+      </ng-container>
 
-            <!-- Default input text box -->
-            <input class="form-control {{classes}}" id="frm_{{frmControl}}" [formControlName]="frmControl" [type]="type" [placeholder]="placeholder"
-                   *ngSwitchDefault [ngClass]="{
+      <!-- Default input text box -->
+      <input class="form-control {{classes}}" id="frm_{{frmControl}}_{{randNum}}" [formControlName]="frmControl" [type]="type" [placeholder]="placeholder"
+             *ngSwitchDefault [ngClass]="{
                'form-control-danger' : field.invalid && field.dirty && field.touched,
                'form-control-success' : field.valid && field.validator }" />
 
-        </ng-container>
+    </ng-container>
 
-        <div *ngIf="field.errors && field.dirty && field.touched"
-             class="alert alert-danger alert-form icon">
-            <span [hidden]="!field.errors.required">
-                {{label}} is required.
-            </span>
-            <span [hidden]="!field.errors.minlength" *ngIf="field.errors.minlength">
-                {{label}} must be at least {{field.errors.minlength.requiredLength || 0}} characters long.
-            </span>
-			<span [hidden]="!field.errors.maxlength" *ngIf="field.errors.maxlength">
-				{{label}} can not be over {{field.errors.maxlength.requiredLength || 0}} characters long.
-			</span>
-            <span [hidden]="!field.errors.email">
-                Please enter a valid email address.
-            </span>
-            <span [hidden]="!field.errors.pattern">
-                Please enter a valid {{label}}.
-            </span>
+    <div *ngIf="field.errors && field.dirty && field.touched"
+         class="alert alert-danger alert-form icon">
+      <span [hidden]="!field.errors.required">
+        {{label}} is required.
+      </span>
+      <span [hidden]="!field.errors.minlength" *ngIf="field.errors.minlength">
+        {{label}} must be at least {{field.errors.minlength.requiredLength || 0}} characters long.
+      </span>
+      <span [hidden]="!field.errors.maxlength" *ngIf="field.errors.maxlength">
+        {{label}} can not be over {{field.errors.maxlength.requiredLength || 0}} characters long.
+      </span>
+      <span [hidden]="!field.errors.email">
+        Please enter a valid email address.
+      </span>
+      <span [hidden]="!field.errors.pattern">
+        Please enter a valid {{label}}.
+      </span>
 
-        </div>
-        <!--
-        <code>
-            {{field.errors | json}}
-        </code>
-        -->
     </div>
+    <!--
+    <code>
+        {{field.errors | json}}
+    </code>
+    -->
+  </div>
 </div>
 <ng-template #contentTpl><ng-content></ng-content></ng-template>
