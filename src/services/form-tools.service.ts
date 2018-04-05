@@ -21,9 +21,9 @@ export class FormToolsService {
    * @param validationModel - The validation model
    * @param prop - If the value is in a nested object, look at this property instead
    */
-  public hasOneValidProp(formValues: any, validationModel: { [key: string]: string[];}, prop?: string)  {
+  public hasOneValidProp(formValues: any, validationModel: { [key: string]: string[]; }, prop?: string)  {
     // console.log('hasOneValidProp', formValues, validationModel, prop);
-    const errors = {};
+    const errors: { [key: string]: boolean } = {};
     // Loop through all elements
     Object.keys(validationModel).forEach(key => {
       const elem: string[] = validationModel[key];
@@ -57,8 +57,8 @@ export class FormToolsService {
   * @param defaultRequired - Should all fields be required. Default is false
   */
   public createFormGroup(model: any, defaultRequired = false): FormGroup {
-    console.log(this.fb,defaultRequired)
-    const formModel = {};
+    // console.log(this.fb, defaultRequired)
+    const formModel: any = {};
     // Loop through all props in the model
     Object.keys(model).forEach(key => {
       // If this is a nested object, recurse to create form group

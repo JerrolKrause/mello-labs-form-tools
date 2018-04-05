@@ -41,13 +41,16 @@ export class FieldComponent implements OnInit, OnDestroy {
       .map((term: any) => term.length < 2 ? []
         : this.model.filter((v: any) => {
           const filterMe = this.modelLabel ? v[this.modelLabel] : v;
+          // console.log('filterMe', filterMe,v)
           return filterMe.toLowerCase().indexOf(term.toLowerCase()) > -1;
         }).slice(0, 10));
   // Formats the output of the typeahead
-  public formatter = (x: { key: string }) => {
+  public formatter: any = (x: { [key: string] : any }) => {
     // If a complete model was passed in, the display value will be different than the form value
-    if (this.model && this.modelValue && this.modelLabel) {
+    if (this.model && this.modelValue && this.modelLabel, x) {
+      // console.log('Gimme Item',this.model, this.modelValue, this.modelLabel)
       const item = this.model.filter((elem: any) => elem[this.modelValue] === x);
+      // console.log('Gimme Item', item)
       // Make sure a result was returned
       if (item && item[0] && item[0][this.modelLabel]) {
         // Get the display value
@@ -56,18 +59,17 @@ export class FieldComponent implements OnInit, OnDestroy {
         // Otherwise return normal value
         return x[this.modelLabel] || x;
       }
+    } else {
+      // Otherwise return normal value
+      return x[this.modelLabel] || x;
     }
-    // Otherwise return normal value
-    return x[this.modelLabel] || x;
+    
   };
-
-  
 
   constructor(
     private datePipe: DatePipe,
     private currencyPipe: CurrencyPipe
   ) {
-
   }
 
   ngOnInit() {
@@ -80,7 +82,7 @@ export class FieldComponent implements OnInit, OnDestroy {
       if (this.field.value && this.field.value !== '') { // On initial load
         this.altFormat = this.currencyPipe.transform(this.field.value, 'USD', true, '1.0');
       }
-      this.frmGroupSub = this.frmGroup.valueChanges.subscribe(() => { // If the form is updated dynamically after load
+      this.frmGroupSub = <any>this.frmGroup.valueChanges.subscribe(() => { // If the form is updated dynamically after load
         if (this.field.value && this.field.value !== '') {
           this.altFormat = this.currencyPipe.transform(this.field.value, 'USD', true, '1.0');
         }
@@ -91,7 +93,7 @@ export class FieldComponent implements OnInit, OnDestroy {
       if (this.field.value && this.field.value !== '') { // On initial load
         this.altFormat = this.datePipe.transform(this.field.value, 'MM/dd/yyyy');
       }
-      this.frmGroupSub = this.frmGroup.valueChanges.subscribe(() => { // If the form is updated dynamically after load
+      this.frmGroupSub = <any>this.frmGroup.valueChanges.subscribe(() => { // If the form is updated dynamically after load
         if (this.field.value && this.field.value !== '') {
           this.altFormat = this.datePipe.transform(this.field.value, 'MM/dd/yyyy');
         }
@@ -156,6 +158,7 @@ export class FieldComponent implements OnInit, OnDestroy {
    * @param event
    */
   public updateTypeahead(event: any) {
+    console.log('Updating Value', event.target.value);
     this.field.setValue(event.target.value);
   }
 
@@ -165,7 +168,6 @@ export class FieldComponent implements OnInit, OnDestroy {
    */
   public typeaheadRemove(index: number): void {
     this.field.value.splice(index, 1);
-    console.warn(this.field.value);
     this.field.setValue([...this.field.value]);
   }
 

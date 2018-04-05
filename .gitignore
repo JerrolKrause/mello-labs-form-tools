@@ -34,3 +34,7 @@ dist/*
 
 # Playground tmp files
 .playground
+obj/
+src/.vs/
+mello-labs-form-tools.csproj
+App.config
