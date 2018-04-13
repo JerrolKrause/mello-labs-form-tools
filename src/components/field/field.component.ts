@@ -47,10 +47,9 @@ export class FieldComponent implements OnInit, OnDestroy {
   // Formats the output of the typeahead
   public formatter: any = (x: { [key: string] : any }) => {
     // If a complete model was passed in, the display value will be different than the form value
-    if (this.model && this.modelValue && this.modelLabel, x) {
+    if (this.model && this.modelValue && this.modelLabel) {
       // console.log('Gimme Item',this.model, this.modelValue, this.modelLabel)
       const item = this.model.filter((elem: any) => elem[this.modelValue] === x);
-      // console.log('Gimme Item', item)
       // Make sure a result was returned
       if (item && item[0] && item[0][this.modelLabel]) {
         // Get the display value
@@ -100,14 +99,7 @@ export class FieldComponent implements OnInit, OnDestroy {
       });
     }
   }
-
-  ngOnDestroy() {
-    // Unsub
-    if (this.frmGroupSub) {
-      this.frmGroupSub.unsubscribe();
-    }
-  }
-
+  
   checkboxMap() {
     // console.log('Changing', $event, this.model);
   }
@@ -158,8 +150,14 @@ export class FieldComponent implements OnInit, OnDestroy {
    * @param event
    */
   public updateTypeahead(event: any) {
-    console.log('Updating Value', event.target.value);
-    this.field.setValue(event.target.value);
+    // If a model was supplied, update this field with the model from the select instead
+    if (this.model) {
+      const model = this.model.filter(item => item[this.modelValue] === event.target.value)[0];
+      this.field.setValue(model);
+    } else {
+      // No model, just a string match
+      this.field.setValue(event.target.value);
+    }
   }
 
   /**
@@ -169,6 +167,13 @@ export class FieldComponent implements OnInit, OnDestroy {
   public typeaheadRemove(index: number): void {
     this.field.value.splice(index, 1);
     this.field.setValue([...this.field.value]);
+  }
+
+  ngOnDestroy() {
+    // Unsub
+    if (this.frmGroupSub) {
+      this.frmGroupSub.unsubscribe();
+    }
   }
 
 }
