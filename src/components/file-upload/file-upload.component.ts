@@ -1,4 +1,14 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder } from '@angular/forms';
 /**
  * <file-upload #fileUpload [frmGroup]="formMain" frmControl="files" label="Upload Files" [multiple]="true" [fillParent]="true" [dragNdrop]="true" (filesAdded)="filesAdded($event)"></file-upload>
@@ -6,14 +16,16 @@ import { FormGroup, AbstractControl, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-file-upload',
-  styles: [`
+  styles: [
+    `
         .fill .col{position:initial!important;}
         .fill .dragNDrop{position:absolute;top:0;bottom:0;left:0;right:0;height: 100%;background:none;z-index:5;padding-top: 0;background:#fff;}
         .fill .dragNdrop-bg{position:absolute;top:5px;bottom:5px;left:5px;right:5px;opacity:0.85;background: #fff;z-index:-1;}
 		.v-center{position: relative;top: 45%;transform: translateY(-50%);}
 		small{font-size: 60%;}
-`],
-  templateUrl: './file-upload.component.html'
+`,
+  ],
+  templateUrl: './file-upload.component.html',
 })
 export class FileUploadComponent implements OnInit, AfterViewInit {
   /** Form group reference */
@@ -23,42 +35,37 @@ export class FileUploadComponent implements OnInit, AfterViewInit {
   /** Label for the user to read */
   @Input() label: string;
   /** Placeholder property */
-  @Input() classes = ''; 
+  @Input() classes = '';
   /** Disabled or not */
-  @Input() disabled = false; 
+  @Input() disabled = false;
   /** Upload multiple files or not */
-  @Input() multiple = false; 
+  @Input() multiple = false;
   /** Show drag and drop box instead of file upload */
-  @Input() dragNdrop = false; 
+  @Input() dragNdrop = false;
   /** Turns on absolute positioning and fills the parent component. Be sure to set position relative on parent. */
   @Input() fillParent = false;
   /** Upload multiple files or not */
-  @Input() text = false; 
+  @Input() text = false;
   /** When a file was added, data is emitted */
   @Output() filesAdded: EventEmitter<any> = new EventEmitter();
 
   @ViewChild('fileField') fileField: ElementRef;
-
 
   public field: AbstractControl; // Hold a reference to the current field element, this is set in ngoninit
   public files: any; // Formdata object for files
   public hover = false;
   public dropFileSize: false | number = false;
 
-  constructor(
-    private fb: FormBuilder,
-    private ref: ChangeDetectorRef
-  ) {
+  constructor(private fb: FormBuilder, private ref: ChangeDetectorRef) {
     this.dropFileSize = this.disabled = this.multiple = this.dragNdrop = this.fillParent = false;
     this.filesAdded = new EventEmitter();
   }
 
-
   ngOnInit() {
-
     if (!this.frmGroup) {
-      this.frmGroup = this.fb.group({ // <-- the parent FormGroup
-        files: ['', []]
+      this.frmGroup = this.fb.group({
+        // <-- the parent FormGroup
+        files: ['', []],
       });
       this.frmControl = 'files';
     }
@@ -110,8 +117,8 @@ export class FileUploadComponent implements OnInit, AfterViewInit {
         size: file.size,
         type: file.type,
         ext: ext,
-        fileRef: file
-      }
+        fileRef: file,
+      };
       fileData.push(data);
     }
 

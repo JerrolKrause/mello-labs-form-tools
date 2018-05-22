@@ -1,19 +1,15 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { FormGroup, AbstractControl } from '@angular/forms';
 import { DatePipe, CurrencyPipe } from '@angular/common';
-import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
+import { Subscription } from 'rxjs';
 
 // TODO: Refactor currency and date fields to subcomponents, move logic
 // TODO: Figure out why default properties set above constructor are being ignored/deleted and have to be set inside the constructor
 @Component({
   selector: 'app-field-component',
-  templateUrl: './field.component.html'
+  templateUrl: './field.component.html',
 })
 export class FieldComponent implements OnInit, OnDestroy {
-
   @Input() frmGroup: FormGroup;
   @Input() frmControl: string; // Object property of reactive form
   @Input() label: string; // Label for the user to read
@@ -38,14 +34,20 @@ export class FieldComponent implements OnInit, OnDestroy {
     text$
       .debounceTime(200)
       .distinctUntilChanged()
-      .map((term: any) => term.length < 2 ? []
-        : this.model.filter((v: any) => {
-          const filterMe = this.modelLabel ? v[this.modelLabel] : v;
-          // console.log('filterMe', filterMe,v)
-          return filterMe.toLowerCase().indexOf(term.toLowerCase()) > -1;
-        }).slice(0, 10));
+      .map(
+        (term: any) =>
+          term.length < 2
+            ? []
+            : this.model
+                .filter((v: any) => {
+                  const filterMe = this.modelLabel ? v[this.modelLabel] : v;
+                  // console.log('filterMe', filterMe,v)
+                  return filterMe.toLowerCase().indexOf(term.toLowerCase()) > -1;
+                })
+                .slice(0, 10),
+      );
   // Formats the output of the typeahead
-  public formatter: any = (x: { [key: string] : any }) => {
+  public formatter: any = (x: { [key: string]: any }) => {
     // If a complete model was passed in, the display value will be different than the form value
     if (this.model && this.modelValue && this.modelLabel) {
       // console.log('Gimme Item',this.model, this.modelValue, this.modelLabel)
@@ -62,26 +64,22 @@ export class FieldComponent implements OnInit, OnDestroy {
       // Otherwise return normal value
       return x[this.modelLabel] || x;
     }
-    
   };
 
-  constructor(
-    private datePipe: DatePipe,
-    private currencyPipe: CurrencyPipe
-  ) {
-  }
+  constructor(private datePipe: DatePipe, private currencyPipe: CurrencyPipe) {}
 
   ngOnInit() {
-
     this.field = this.frmGroup.get(this.frmControl); //Set a reference to this field for simplicity
 
     // Since the visible currency field is a mask and not connected to the main formgroup, it needs to know when the form model changes
     // This also handles loading the initial value
     if (this.type === 'currency') {
-      if (this.field.value && this.field.value !== '') { // On initial load
+      if (this.field.value && this.field.value !== '') {
+        // On initial load
         this.altFormat = this.currencyPipe.transform(this.field.value, 'USD', true, '1.0');
       }
-      this.frmGroupSub = <any>this.frmGroup.valueChanges.subscribe(() => { // If the form is updated dynamically after load
+      this.frmGroupSub = <any>this.frmGroup.valueChanges.subscribe(() => {
+        // If the form is updated dynamically after load
         if (this.field.value && this.field.value !== '') {
           this.altFormat = this.currencyPipe.transform(this.field.value, 'USD', true, '1.0');
         }
@@ -89,17 +87,19 @@ export class FieldComponent implements OnInit, OnDestroy {
     }
 
     if (this.type === 'date') {
-      if (this.field.value && this.field.value !== '') { // On initial load
+      if (this.field.value && this.field.value !== '') {
+        // On initial load
         this.altFormat = this.datePipe.transform(this.field.value, 'MM/dd/yyyy');
       }
-      this.frmGroupSub = <any>this.frmGroup.valueChanges.subscribe(() => { // If the form is updated dynamically after load
+      this.frmGroupSub = <any>this.frmGroup.valueChanges.subscribe(() => {
+        // If the form is updated dynamically after load
         if (this.field.value && this.field.value !== '') {
           this.altFormat = this.datePipe.transform(this.field.value, 'MM/dd/yyyy');
         }
       });
     }
   }
-  
+
   checkboxMap() {
     // console.log('Changing', $event, this.model);
   }
@@ -152,7 +152,7 @@ export class FieldComponent implements OnInit, OnDestroy {
   public updateTypeahead(event: any) {
     // If a model was supplied, update this field with the model from the select instead
     if (this.model) {
-      const model = this.model.filter(item => item[this.modelValue] === event.target.value)[0];
+      const model = this.model.filter((item: any) => item[this.modelValue] === event.target.value)[0];
       this.field.setValue(model);
     } else {
       // No model, just a string match
@@ -175,5 +175,4 @@ export class FieldComponent implements OnInit, OnDestroy {
       this.frmGroupSub.unsubscribe();
     }
   }
-
 }

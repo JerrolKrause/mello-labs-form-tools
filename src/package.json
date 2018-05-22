@@ -1,31 +1,28 @@
 {
-	"name": "@mello-labs/form-tools",
-	"version": "1.1.0",
-	"description": "Form field components for rapid form creation & development",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/JerrolKrause/mello-labs-form-tools"
-	},
-	"author": {
-		"name": "Jerrol Krause",
-		"email": "jkrause@loandepot.com"
-	},
-	"keywords": [
-		"angular"
-	],
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/JerrolKrause/mello-labs-form-tools/issues"
-	},
-	"main": "mello-labs-form-tools.umd.js",
-	"module": "mello-labs-form-tools.js",
-	"jsnext:main": "mello-labs-form-tools.js",
-	"typings": "mello-labs-form-tools.d.ts",
-	"peerDependencies": {
-		"@angular/core": "^5.0.0",
-		"@angular/forms": "^5.0.0",
-		"@ng-bootstrap/ng-bootstrap": "1.0.0-beta.5",
-		"rxjs": "^5.1.0",
-		"zone.js": "^0.8.4"
-	}
+  "name": "@mello-labs/form-tools",
+  "description": "Form field components for rapid form creation & development",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JerrolKrause/mello-labs-form-tools"
+  },
+  "author": {
+    "name": "Jerrol Krause",
+    "email": "jkrause@loandepot.com"
+  },
+  "keywords": ["angular"],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JerrolKrause/mello-labs-form-tools/issues"
+  },
+  "main": "mello-labs-form-tools.umd.js",
+  "module": "mello-labs-form-tools.js",
+  "jsnext:main": "mello-labs-form-tools.js",
+  "typings": "mello-labs-form-tools.d.ts",
+  "peerDependencies": {
+    "@angular/core": "^5.0.0",
+    "@angular/forms": "^5.0.0",
+    "@ng-bootstrap/ng-bootstrap": "1.0.0-beta.5",
+    "rxjs": "^5.1.0",
+    "zone.js": "^0.8.4"
+  }
 }

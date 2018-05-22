@@ -19,10 +19,7 @@
     "noImplicitAny": false,
     "outDir": "../build",
     "rootDir": ".",
-    "lib": [
-      "es2015",
-      "dom"
-    ],
+    "lib": ["es2015", "dom"],
     "skipLibCheck": true,
     "types": []
   },
@@ -33,7 +30,5 @@
     "flatModuleOutFile": "mello-labs-form-tools.js",
     "flatModuleId": "@mello-labs/form-tools"
   },
-  "files": [
-    "./index.ts"
-  ]
+  "files": ["./index.ts"]
 }

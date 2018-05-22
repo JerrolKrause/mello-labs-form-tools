@@ -17,28 +17,16 @@ export * from './components/file-upload/file-upload.component';
 export * from './services/form-tools.service';
 
 @NgModule({
-  imports: [
-    CommonModule, FormsModule, ReactiveFormsModule, NgbModule.forRoot()
-  ],
-  declarations: [
-    FieldComponent,
-    FileUploadComponent
-  ],
-  providers: [
-    FormToolsService
-  ],
-  exports: [
-    FieldComponent,
-    FileUploadComponent
-  ]
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, NgbModule.forRoot()],
+  declarations: [FieldComponent, FileUploadComponent],
+  providers: [FormToolsService],
+  exports: [FieldComponent, FileUploadComponent],
 })
 export class FormToolsModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: FormToolsModule,
-      providers: [
-        FormToolsService
-      ]
+      providers: [FormToolsService],
     };
   }
 }
